@@ -18,14 +18,7 @@ print("Age at graduation:", age + (grad_year - current_year))
 print("Years since birth:", current_year - birth_year)
 print("Weeks alive:", age * 52)
 print("Decades old:", age / 10)
-
-# Statistic: Amount of gum chewed in the last year (10 sticks/week)
-gum_per_week = 10
-weeks_in_year = 52
-gum_chewed = gum_per_week * weeks_in_year
-print("Sticks of gum chewed in the last year:", gum_chewed)
-
-# Pause at the end so output stays visible
+input("Press Enter to exit...")
 # Personal Information
 name = "Your Name"
 hometown = "Kapolei"
