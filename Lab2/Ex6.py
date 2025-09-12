@@ -8,4 +8,4 @@ weight_in_pounds = input("Please enter your weight in pounds: ")
 weight_in_kilos = float(weight_in_pounds) / 2.2046
 rounded_kilos = round(weight_in_kilos, 0)
 print(f"Your weight in kilos is {rounded_kilos} kg.")
-
+print(f"Your weight in kilos is {round(float(input('Please enter your weight in pounds: ')) / 2.2046, 2)} kg.")
