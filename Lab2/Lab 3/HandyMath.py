@@ -3,36 +3,22 @@
 #9/10/2025
 
 #function to compute square root
-def square_root(x, precision=2):
-    if x < 0:
-        raise ValueError("Cannot compute square root of a negative number.")
-    return x ** 0.5
-number = float(input("Enter a number to find its square root: "))
-result = square_root(number)
-print(f"The square root of {number} is approximately {result:.2f}.")
+def midpoint(a, b):
+    return (a + b) / 2
 
-#function for midpoint
-def midpoint(num1, num2):
-    mid = (num1 + num2) / 2
-    return mid
+def squareroot(n):
+    return n ** 0.5
 
-number1 = float(input("Please enter the first number: "))
-number2 = float(input("Please enter the second number: "))
-result = midpoint(number1, number2)
-print(f"The midpoint between {number1} and {number2} is {result}.")
-#exponent function
 def exponent(base, exp):
     return base ** exp
-#max
+
+# Shadowing built-ins on purpose for the lab
 def max(a, b):
-    if a > b:
-        return a
-    else:
-        return b
-    
-#min
+    return a if a >= b else b
+
 def min(a, b):
-    if a < b:
-        return a
-    else:
-        return b
+    return a if a <= b else b
+
+def apply2(x, y, func):
+    # func must be a function that accepts (x, y)
+    return f"The function {func.__name__} {x},{y} = {func(x, y)}"
