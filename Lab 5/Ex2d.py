@@ -5,3 +5,6 @@ trips = [{'miles': 1.1, 'fare': 6.25}, {'miles': 0.8, 'fare': 5.25},
 
                                                                 ]
 print(f"The fare of the third trip is ${trips[2]['fare']:.2f}")
+price_by_miles = dict(zip(miles, fares))
+print(price_by_miles)
+print("3rd trip:", 2.5, "miles,", price_by_miles[2.5])
