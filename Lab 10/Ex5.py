@@ -63,3 +63,6 @@ print("After dropping 0 sales price\n", df_big_homes.head(10))
 #calculate average sales price
 average_sales_price = df_big_homes["sale_price"].mean()
 print(f"Average sale price for properties with >0 sales: {average_sales_price}")
+
+
+#
