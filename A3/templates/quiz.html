@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="progress-bar">
+    <div class="progress-fill" style="width: {{ progress }}%;"></div>
+</div>
+
+<p>Question {{ index }} of {{ total }}</p>
+<p>Score: {{ score }}</p>
+
+<p><strong>Time left: <span id="time-left">{{ time_left }}</span> seconds</strong></p>
+
+{% if feedback %}
+    <p class="feedback">{{ feedback }}</p>
+{% endif %}
+
+<form action="{{ url_for('quiz') }}" method="post">
+    <p>{{ question.question }}</p>
+    {% for opt in question.options %}
+        <label>
+            <input type="radio" name="answer" value="{{ opt }}" required>
+            {{ opt }}
+        </label><br>
+    {% endfor %}
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+let timeLeft = parseInt(document.getElementById("time-left").textContent, 10);
+
+const timerInterval = setInterval(function() {
+    timeLeft -= 1;
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        window.location.href = "{{ url_for('result', timed_out=1) }}";
+    } else {
+        document.getElementById("time-left").textContent = timeLeft;
+    }
+}, 1000);
+</script>
+
+{% endblock %}
+

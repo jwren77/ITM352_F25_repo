@@ -1,9 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-      <title>Login</title>
+  <title>Memes'R'Us</title>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=0.8">
+  <!-- Refresh every 10 seconds -->
+  <meta http-equiv="refresh" content="10; url=http://127.0.0.1:5000" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .card { max-width: 720px; margin: 0 auto; border: 1px solid #ddd; padding: 1rem; border-radius: 8px; }
+    img { max-width: 100%; height: auto; border-radius: 6px; }
+    .meta { color: #666; margin-top: 0.5rem; }
+    .error { color: #b00020; margin-top: 1rem; }
+  </style>
 </head>
 <body>
-    <h2>Click <a href="{{ url_for('login') }}">here</a> to login</h2>
+  <div class="card">
+    <h1>Memes'R'Us</h1>
+
+    {% if meme and meme.image_url %}
+      <h2>{{ meme.title }}</h2>
+      <a href="{{ meme.post_link or '#' }}" target="_blank" rel="noopener">
+        <img src="{{ meme.image_url }}?t={{ ts }}" alt="{{ meme.title }}">
+      </a>
+      <div class="meta">
+        Source subreddit:
+        {% if meme.subreddit %}
+          <a href="https://reddit.com/r/{{ meme.subreddit }}" target="_blank" rel="noopener">
+            r/{{ meme.subreddit }}
+          </a>
+        {% else %}
+          (unknown)
+        {% endif %}
+      </div>
+    {% else %}
+      <p>No meme loaded.</p>
+    {% endif %}
+
+    {% if meme and meme.error %}
+      <div class="error">Error: {{ meme.error }}</div>
+    {% endif %}
+
+    <p class="meta">Auto-refreshes every 10 seconds.</p>
+  </div>
 </body>
 </html>

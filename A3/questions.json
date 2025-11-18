@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is the airspeed of an unladen swallow in miles/hr?",
+    "options": ["12", "8", "11", "15"],
+    "correct": "12"
+  },
+  {
+    "question": "What is the capital of Texas?",
+    "options": ["Austin", "San Antonio", "Dallas", "Waco"],
+    "correct": "Austin"
+  },
+  {
+    "question": "The Last Supper was painted by which artist?",
+    "options": ["Da Vinci", "Rembrandt", "Picasso", "Michelangelo"],
+    "correct": "Da Vinci"
+  },
+  {
+    "question": "Which classic novel opens with the line 'Call Me Ishmael'?",
+    "options": ["Moby Dick", "Wuthering Heights", "The Old Man and the Sea", "The Scarlet Letter"],
+    "correct": "Moby Dick"
+  },
+  {
+    "question": "Frank Lloyd Wright designed a house that included a waterfall. What is the name of this house?",
+    "options": ["Fallingwater", "Watering Heights", "Mossyledge", "Taliesin"],
+    "correct": "Fallingwater"
+  }
+]

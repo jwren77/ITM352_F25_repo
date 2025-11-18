@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Quiz Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:system-ui, Arial; margin:2rem; line-height:1.5}
+    .btn{display:inline-block; padding:.6rem 1rem; border:1px solid #333; border-radius:8px; text-decoration:none}
+  </style>
+</head>
+<body>
+  <h1>Quiz Game</h1>
+  <p>Answer multiple-choice questions. Score is shown at the end.</p>
+
+  {% if in_progress %}
+    <a class="btn" href="{{ url_for('question') }}">Resume Quiz</a>
+    <a class="btn" href="{{ url_for('reset') }}">Start Over</a>
+  {% else %}
+    <a class="btn" href="{{ url_for('start') }}">Start Quiz</a>
+  {% endif %}
+</body>
+</html>

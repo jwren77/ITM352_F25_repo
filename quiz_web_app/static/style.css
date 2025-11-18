@@ -1,0 +1,22 @@
+/* Basic visual tweaks and interactive feedback colors */
+
+.feedback {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.feedback-correct {
+    color: green;
+}
+
+.feedback-wrong {
+    color: red;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}

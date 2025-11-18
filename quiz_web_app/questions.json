@@ -1,0 +1,47 @@
+[
+  {
+    "question": "What is the airspeed of an unladen swallow in miles/hr?",
+    "options": ["12", "8", "11", "15"],
+    "correct": "12",
+    "difficulty": "Medium",
+    "category": "Movies",
+    "hint": "It is a Monty Python joke.",
+    "explanation": "This is from Monty Python and the Holy Grail, where 12 mph is the punchline."
+  },
+  {
+    "question": "What is the capital of Texas?",
+    "options": ["Austin", "San Antonio", "Dallas", "Waco"],
+    "correct": "Austin",
+    "difficulty": "Easy",
+    "category": "Geography",
+    "hint": "Known for live music and tech startups.",
+    "explanation": "Austin is the capital city of Texas."
+  },
+  {
+    "question": "The Last Supper was painted by which artist?",
+    "options": ["Da Vinci", "Rembrandt", "Picasso", "Michelangelo"],
+    "correct": "Da Vinci",
+    "difficulty": "Medium",
+    "category": "Art",
+    "hint": "Same person who painted the Mona Lisa.",
+    "explanation": "Leonardo da Vinci painted The Last Supper in the late 15th century."
+  },
+  {
+    "question": "Which classic novel opens with the line 'Call me Ishmael'?",
+    "options": ["Moby Dick", "Wuthering Heights", "The Old Man and the Sea", "The Scarlet Letter"],
+    "correct": "Moby Dick",
+    "difficulty": "Hard",
+    "category": "Literature",
+    "hint": "It is about a whale.",
+    "explanation": "The famous first line belongs to Herman Melville's Moby Dick."
+  },
+  {
+    "question": "Frank Lloyd Wright designed a house that included a waterfall. What is the name of this house?",
+    "options": ["Fallingwater", "Watering Heights", "Mossyledge", "Taliesin"],
+    "correct": "Fallingwater",
+    "difficulty": "Medium",
+    "category": "Architecture",
+    "hint": "The name includes the word 'falling'.",
+    "explanation": "Fallingwater is a house in Pennsylvania built partly over a waterfall."
+  }
+]

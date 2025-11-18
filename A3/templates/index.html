@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Welcome to the quiz game!</p>
+<p>You will have {{ time_limit }} seconds to answer all questions.</p>
+<form action="{{ url_for('start') }}" method="get">
+    <button type="submit">Start Quiz</button>
+</form>
+{% endblock %}

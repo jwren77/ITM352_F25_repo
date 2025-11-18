@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:system-ui, Arial; margin:2rem; line-height:1.6}
+    .btn{display:inline-block; padding:.6rem 1rem; border:1px solid #333; border-radius:8px; text-decoration:none}
+  </style>
+</head>
+<body>
+  <h1>Results</h1>
+  <p>You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>.</p>
+
+  <a class="btn" href="{{ url_for('start') }}">Play Again</a>
+  <a class="btn" href="{{ url_for('index') }}">Home</a>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Question {{ q_idx }} of {{ total }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:system-ui, Arial; margin:2rem; line-height:1.6}
+    .opt{margin:.4rem 0}
+    button{margin-top:1rem; padding:.6rem 1rem; border:1px solid #333; border-radius:8px; background:#fff}
+  </style>
+</head>
+<body>
+  <h2>Question {{ q_idx }} of {{ total }}</h2>
+  <p>{{ prompt }}</p>
+
+  <form method="post" action="{{ url_for('answer') }}">
+    {% for opt in options %}
+      <div class="opt">
+        <label>
+          <input type="radio" name="choice" value="{{ opt }}" required>
+          {{ opt }}
+        </label>
+      </div>
+    {% endfor %}
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

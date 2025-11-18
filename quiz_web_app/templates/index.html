@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if username %}
+    <p>Welcome back, {{ username }}!</p>
+    {% if user_history %}
+        <h5>Your previous scores:</h5>
+        <ul>
+            {% for s in user_history %}
+                <li>
+                    {{ s.timestamp }} – {{ s.score }} / {{ s.total }}
+                    ({{ s.difficulty }}, {{ s.category }}, hints: {{ s.hints_used }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No previous scores recorded yet.</p>
+    {% endif %}
+{% else %}
+    <p>Welcome to the quiz game!</p>
+{% endif %}
+
+<form action="{{ url_for('index') }}" method="post" class="mt-3">
+    <div class="mb-2">
+        <label class="form-label">Name:</label>
+        <input type="text" name="username" class="form-control"
+               placeholder="Enter your name (or leave blank for Guest)">
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">Difficulty:</label>
+        <select name="difficulty" class="form-select">
+            {% for d in difficulties %}
+                <option value="{{ d }}">{{ d }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">Category:</label>
+        <select name="category" class="form-select">
+            {% for c in categories %}
+                <option value="{{ c }}">{{ c }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Start Quiz</button>
+</form>
+
+{% endblock %}

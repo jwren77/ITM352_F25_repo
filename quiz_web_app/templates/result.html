@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h4>Quiz Finished</h4>
+
+{% if timed_out %}
+    <p class="text-danger">Your time is up!</p>
+{% endif %}
+
+<p><strong>{{ username }}</strong>, your final score:
+   {{ "%.2f" | format(score) }} / {{ total }}</p>
+<p>Difficulty: {{ difficulty }} | Category: {{ category }}</p>
+<p>Correct: {{ num_correct }} | Incorrect: {{ num_incorrect }} | Hints used: {{ hints_used }}</p>
+
+<hr>
+
+<h5>Question Review</h5>
+{% if answers_log %}
+    <ul>
+        {% for a in answers_log %}
+            <li>
+                <strong>{{ a.question }}</strong><br>
+                Your answer: {{ a.selected }}
+                {% if a.is_correct %}
+                    <span class="badge bg-success">Correct</span>
+                {% else %}
+                    <span class="badge bg-danger">Wrong</span>
+                {% endif %}
+                <br>
+                Correct answer: {{ a.correct }}<br>
+                {% if a.used_hint %}
+                    <em>Hint used.</em><br>
+                {% endif %}
+                <small>Explanation: {{ a.explanation }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No answers logged.</p>
+{% endif %}
+
+<hr>
+
+<h5>Leaderboard (Top 10)</h5>
+{% if leaderboard %}
+    <ol>
+        {% for s in leaderboard %}
+            <li>
+                {{ s.name }} – {{ "%.2f" | format(s.score) }} / {{ s.total }}
+                ({{ s.difficulty }}, {{ s.category }}, hints: {{ s.hints_used }})
+            </li>
+        {% endfor %}
+    </ol>
+{% else %}
+    <p>No scores yet.</p>
+{% endif %}
+
+<hr>
+
+<h5>Your Score History</h5>
+{% if user_history %}
+    <ul>
+        {% for s in user_history %}
+            <li>
+                {{ s.timestamp }} – {{ "%.2f" | format(s.score) }} / {{ s.total }}
+                ({{ s.difficulty }}, {{ s.category }}, hints: {{ s.hints_used }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No past attempts found.</p>
+{% endif %}
+
+<a href="{{ url_for('index') }}" class="btn btn-primary mt-3">Play Again</a>
+
+{% endblock %}

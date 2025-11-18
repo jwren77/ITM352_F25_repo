@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Quiz Finished</h2>
+
+{% if timed_out %}
+    <p>Your time is up!</p>
+{% endif %}
+
+<p>Your final score: {{ score }} / {{ total }}</p>
+
+<a href="{{ url_for('index') }}">Play Again</a>
+{% endblock %}
