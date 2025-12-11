@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HI-EMA – Hawaii County Live Snapshot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #e3f2fd 0, #f5f7fa 45%, #edf2f7 100%);
+      min-height: 100vh;
+    }
+    .app-shell {
+      max-width: 1000px;
+    }
+    .app-header {
+      border-radius: 18px;
+      background: linear-gradient(135deg, #004b8d, #0077c8);
+      color: white;
+      padding: 18px 22px;
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #4a5568;
+      margin-top: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .summary-chip {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      background-color: rgba(255,255,255,0.15);
+    }
+  </style>
+</head>
+<body>
+<div class="container my-4 app-shell">
+
+  <!-- Header -->
+  <div class="mb-3">
+    <div class="app-header shadow-sm d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <img src="{{ url_for('static', filename='hiema_logo.png') }}"
+             onerror="this.style.display='none';"
+             alt="HI-EMA Logo" style="height:64px;">
+        <div>
+          <h1 class="h5 mb-1 text-uppercase" style="letter-spacing:0.05em;">
+            Hawaii County Live Snapshot
+          </h1>
+          <div class="small">
+            State: {{ snapshot.state_abbr }} · Generated: {{ snapshot.generated_at }}
+          </div>
+        </div>
+      </div>
+      <div class="text-end">
+        <div class="summary-chip mb-1">
+          📊 Census · FEMA · HCCDA · NOAA · NWS
+        </div>
+        <div class="small">
+          Strain: <strong>{{ snapshot.strain_level }}</strong>
+          ({{ snapshot.strain_score }}/100)
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light mt-1">
+          Logout
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main cards -->
+  <div class="row g-3">
+
+    <!-- Left: overview + hazards -->
+    <div class="col-md-7">
+      <!-- Overview card -->
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="section-title">Overview – Hawaii County</div>
+          <p class="mb-1">
+            Population:
+            <strong>{{ "{:,}".format(snapshot.juris_population) }}</strong>
+            <span class="text-muted" style="font-size:0.8rem;">
+              ({{ snapshot.population_source }})
+            </span>
+          </p>
+          <p class="mb-1">
+            Planning assumption – potentially affected:
+            <strong>{{ "{:,}".format(snapshot.population_affected) }}</strong> people
+            (~30% of population).
+          </p>
+          <p class="mb-2">
+            Estimated needing shelter:
+            <strong>{{ "{:,}".format(snapshot.estimated_shelter_need) }}</strong> people
+            (~20% of affected).
+          </p>
+          <p class="mb-2">
+            FEMA disaster declarations since 2000 (all hazards, {{ snapshot.state_abbr }}):
+            <strong>{{ snapshot.fema_disasters }}</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- HCCDA hazards -->
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="section-title">Hawaii County Hazards & Lifelines (HCCDA)</div>
+          <ul class="mb-0">
+            <li>Volcano status features:
+              <strong>{{ snapshot.volcano_sites }}</strong>
+            </li>
+            <li>Fire location features:
+              <strong>{{ snapshot.fire_events }}</strong>
+            </li>
+            <li>Road closure features:
+              <strong>{{ snapshot.road_closures_live }}</strong>
+            </li>
+            <li>Evacuation features:
+              <strong>{{ snapshot.evacuation_features }}</strong>
+            </li>
+            <li>Emergency shelter features:
+              <strong>{{ snapshot.shelters_layer_count }}</strong>
+            </li>
+            <li>Water shut-off notices:
+              <strong>{{ snapshot.water_shutoffs }}</strong>
+            </li>
+            <li>Water conservation restriction notices:
+              <strong>{{ snapshot.water_restrictions }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: weather + strain + PDF -->
+    <div class="col-md-5">
+      <!-- Weather / alerts -->
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="section-title">Weather & Alerts</div>
+          <p class="mb-1">
+            NOAA METAR wind stations in current feed:
+            <strong>{{ snapshot.noaa_metar_sites }}</strong>
+          </p>
+          <p class="mb-2">
+            NWS watches/warnings in current feed:
+            <strong>{{ snapshot.nws_watch_warning_count }}</strong>
+          </p>
+
+          <div class="section-title mt-3">Strain Indicator</div>
+          <p class="mb-1">
+            Overall community strain:
+            <strong>{{ snapshot.strain_level }}</strong>
+            ({{ snapshot.strain_score }}/100)
+          </p>
+          <p class="text-muted mb-0" style="font-size:0.85rem;">
+            Simple index using hazards, closures, water notices, and shelter demand.
+          </p>
+        </div>
+      </div>
+
+      <!-- PDF export -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="section-title">PDF Snapshot Export</div>
+          <p class="text-muted" style="font-size:0.85rem;">
+            Download a one-page PDF summary of the current snapshot.
+            You can optionally password protect the PDF.
+          </p>
+          <form method="post" action="{{ url_for('download_pdf') }}">
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox"
+                     id="encrypt_pdf" name="encrypt_pdf">
+              <label class="form-check-label" for="encrypt_pdf">
+                Encrypt PDF with password
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">PDF password (optional)</label>
+              <input type="password" class="form-control" name="pdf_password"
+                     placeholder="Leave blank for no password">
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">
+              Download Snapshot PDF
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="card shadow-sm mt-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="section-title mb-0">Visual Snapshot (Charts)</div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="toggleCharts" checked>
+          <label class="form-check-label" for="toggleCharts">
+            Show charts
+          </label>
+        </div>
+      </div>
+      <div id="chartsContainer">
+        <div class="row g-3">
+          <div class="col-md-7">
+            <canvas id="hazardChart" height="160"></canvas>
+          </div>
+          <div class="col-md-5">
+            <canvas id="weatherChart" height="160"></canvas>
+          </div>
+        </div>
+        <p class="text-muted mt-2" style="font-size:0.8rem;">
+          Quick visualization only; not a formal analysis product.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  const snapshot = {{ snapshot | tojson }};
+
+  const chartsContainer = document.getElementById('chartsContainer');
+  const toggleCharts = document.getElementById('toggleCharts');
+
+  toggleCharts.addEventListener('change', function () {
+    chartsContainer.style.display = this.checked ? 'block' : 'none';
+  });
+
+  // Hazard / lifelines chart
+  const hazardCtx = document.getElementById('hazardChart').getContext('2d');
+  new Chart(hazardCtx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'Volcano', 'Fire', 'Road Closures', 'Evacuations',
+        'Shelters', 'Water Shut-offs', 'Water Restrictions'
+      ],
+      datasets: [{
+        label: 'Feature Count',
+        data: [
+          snapshot.volcano_sites,
+          snapshot.fire_events,
+          snapshot.road_closures_live,
+          snapshot.evacuation_features,
+          snapshot.shelters_layer_count,
+          snapshot.water_shutoffs,
+          snapshot.water_restrictions
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Hawaii County Hazards & Lifelines (HCCDA)'
+        }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+
+  // Weather / alerts chart
+  const weatherCtx = document.getElementById('weatherChart').getContext('2d');
+  new Chart(weatherCtx, {
+    type: 'bar',
+    data: {
+      labels: ['NOAA METAR Sites', 'NWS Watches/Warnings'],
+      datasets: [{
+        label: 'Count',
+        data: [
+          snapshot.noaa_metar_sites,
+          snapshot.nws_watch_warning_count
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Weather & Alerts (NOAA / NWS)'
+        }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script>
+</body>
+</html>
